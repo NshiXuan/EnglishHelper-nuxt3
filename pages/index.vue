@@ -1,11 +1,10 @@
 <template>
   <div class="home wrap-v1">
-    <ElButton>home</ElButton>
+    home
   </div>
 </template>
 
 <script setup lang="ts">
-import { ElButton } from 'element-plus'
 
 export interface IProps {
   title?: string,
