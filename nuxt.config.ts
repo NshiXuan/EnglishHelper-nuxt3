@@ -2,10 +2,12 @@ import ElementPlus from 'unplugin-element-plus/vite'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
-  css: ['normalize.css', "@/assets/css/global.scss"],
+  css: ['normalize.css', "@/assets/css/global.scss", 'element-plus/dist/index.css'],
   vite: {
     // 配置自动导入样式
-    plugins: [ElementPlus() as any]
+    plugins: [
+      ElementPlus() as any
+    ]
   },
   build: {
     transpile: ['element-plus/es'],
