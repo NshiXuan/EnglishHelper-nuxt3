@@ -5,7 +5,7 @@ export default defineNuxtConfig({
   css: ['normalize.css', "@/assets/css/global.scss"],
   vite: {
     // 配置自动导入样式
-    plugins: [ElementPlus()]
+    plugins: [ElementPlus() as any]
   },
   build: {
     transpile: ['element-plus/es'],
