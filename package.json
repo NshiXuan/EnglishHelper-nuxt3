@@ -10,7 +10,8 @@
   "devDependencies": {
     "nuxt": "^3.1.1",
     "sass": "^1.58.0",
-    "unplugin-element-plus": "^0.4.1"
+    "unplugin-element-plus": "^0.4.1",
+    "unplugin-vue-components": "^0.23.0"
   },
   "dependencies": {
     "element-plus": "^2.2.28",

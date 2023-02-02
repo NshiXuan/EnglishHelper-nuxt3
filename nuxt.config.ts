@@ -1,4 +1,6 @@
-import ElementPlus from 'unplugin-element-plus/vite'
+// import ElementPlus from 'unplugin-element-plus/vite'
+import Components from "unplugin-vue-components/vite";
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
@@ -6,12 +8,16 @@ export default defineNuxtConfig({
   vite: {
     // 配置自动导入样式
     plugins: [
-      ElementPlus() as any
+      // ElementPlus() as any
+      Components({
+        dts: true,
+        resolvers: [ElementPlusResolver()]
+      })
     ]
   },
-  build: {
-    transpile: ['element-plus/es'],
-  },
+  // build: {
+  //   transpile: ['element-plus/es'],
+  // },
 
   // 3.SEO优化
   app: {

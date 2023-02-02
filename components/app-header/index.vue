@@ -59,7 +59,6 @@ const props = withDefaults(defineProps<IProps>(), {
 const route = useRoute()
 const currentIndex = ref(route.name as string)
 
-const activeIndex = ref('1')
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
