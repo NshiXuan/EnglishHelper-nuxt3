@@ -46,5 +46,8 @@ export default defineNuxtConfig({
       // 如果浏览器不支持脚本或者禁用脚本 提示需要脚本
       noscript: [{ children: 'Javascript is required' }]
     }
-  }
+  },
+
+  // 4.配置pinia pinia/nuxt可以帮我们解决序列化、XSS攻击、state同步问题
+  modules: ['@pinia/nuxt']
 })

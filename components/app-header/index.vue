@@ -3,6 +3,15 @@
     <!-- logo -->
     <div class="logo">EnglishHelper</div>
 
+    <!-- 搜索框 -->
+    <el-input
+      class="search"
+      v-model="searchValue"
+      placeholder="请输入内容"
+      clearable
+      @keydown="handleKeydown"
+    />
+
     <!-- 导航 -->
     <el-menu
       :default-active="currentIndex"
@@ -46,28 +55,38 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
-
-import { ElMenu, ElSubMenu, ElMenuItem } from 'element-plus'
-
-export interface IProps {
-  title?: string
-}
-
-// 配置props类型与默认值
-const props = withDefaults(defineProps<IProps>(), {
-  title: ''
-})
+import { ElMenu, ElSubMenu, ElMenuItem, ElInput } from 'element-plus'
+import { useHomeStore } from '~~/store/home'
 
 // 刷新路由获取路径赋给currentIndex
 const route = useRoute()
 const currentIndex = ref(route.name as string)
+// 搜索内容
+const searchValue = ref('')
 
+// 从store中获取action用于搜索时请求获取单词数据
+const homeStore = useHomeStore()
+
+// 选择导航
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
+}
+
+// 按回车搜索
+function handleKeydown(e: any) {
+  // 如果是回车键
+  if (e.keyCode === 13) {
+    homeStore.fetchWordByName(searchValue.value)
+    console.log(e)
+  }
 }
 </script>
 
 <style lang="scss" scoped>
+:deep .el-input__wrapper {
+  border-radius: 20px;
+}
+
 .header {
   display: flex;
   align-items: center;
@@ -85,6 +104,14 @@ const handleSelect = (key: string, keyPath: string[]) => {
     z-index: 10;
   }
 
+  .search {
+    position: absolute;
+    top: 25px;
+    left: 270px;
+    width: 300px;
+    z-index: 10;
+  }
+
   .el-menu {
     width: inherit;
     padding: 0 25px;
@@ -95,7 +122,6 @@ const handleSelect = (key: string, keyPath: string[]) => {
     .el-menu-item {
       height: 80px;
       font-size: 16px;
-      /* width: 100px; */
     }
 
     .el-sub-menu {
