@@ -7,7 +7,8 @@ export interface IResultData<T> {
   data: T
 }
 
-const BASE_URL = "http://codercba.com:9060/oppo-nuxt/api"
+const BASE_URL = "http://43.138.161.206:9999"
+// const BASE_URL = "http://localhost:9999"
 
 class SXRequest {
   // T代表响应结果类型 就是解构 {data} 的类型
