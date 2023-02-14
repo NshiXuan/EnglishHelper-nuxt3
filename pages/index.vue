@@ -63,7 +63,7 @@
 </template>
 
 <script setup lang="ts">
-import { ElRate } from 'element-plus'
+import { ElRate, ElEmpty } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { useHomeStore } from '~~/store/home'
 
@@ -96,7 +96,7 @@ function handlePlay() {
 
 .home {
   /* margin-bottom: 100px; */
-  height: 55vh;
+  min-height: 55vh;
 
   .word-wrapper {
     display: flex;

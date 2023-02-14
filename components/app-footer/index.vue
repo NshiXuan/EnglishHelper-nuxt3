@@ -31,7 +31,7 @@ const props = withDefaults(defineProps<IProps>(), {
 const footerData = ref([
   {
     title: '前端',
-    technology: ['Vue3', 'Nuxt3', 'TypeScript', 'Serverless']
+    technology: ['Vue3', 'Nuxt3', 'Pinia', 'TypeScript']
   },
   {
     title: '后端',
