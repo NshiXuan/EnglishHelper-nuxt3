@@ -4,7 +4,12 @@
     <div class="logo">EnglishHelper</div>
 
     <!-- 导航 -->
-    <el-menu :default-active="currentIndex" class="el-menu-demo" mode="horizontal" @select="handleSelect">
+    <el-menu
+      :default-active="currentIndex"
+      class="el-menu-demo"
+      mode="horizontal"
+      @select="handleSelect"
+    >
       <el-menu-item index="index">
         <NuxtLink to="/">首页</NuxtLink>
       </el-menu-item>
@@ -26,7 +31,7 @@
 
       <el-sub-menu index="avator">
         <template #title>
-          <img class="avatar" src="@/assets/img/pinia.png" alt="个人中心">
+          <img class="avatar" src="@/assets/img/pinia.png" alt="个人中心" />
         </template>
         <el-menu-item index="logout">退出</el-menu-item>
       </el-sub-menu>
@@ -35,8 +40,6 @@
         <NuxtLink to="/login">登录/注册</NuxtLink>
         <!-- 登录/注册 -->
       </el-menu-item>
-
-
     </el-menu>
   </div>
 </template>
@@ -47,7 +50,7 @@ import { ref } from 'vue'
 import { ElMenu, ElSubMenu, ElMenuItem } from 'element-plus'
 
 export interface IProps {
-  title?: string,
+  title?: string
 }
 
 // 配置props类型与默认值

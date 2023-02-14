@@ -6,7 +6,7 @@
 
 <script setup lang="ts">
 export interface IProps {
-  title?: string,
+  title?: string
 }
 
 // 配置props类型与默认值
@@ -15,6 +15,4 @@ const props = withDefaults(defineProps<IProps>(), {
 })
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
