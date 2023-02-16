@@ -1,18 +1,17 @@
 <template>
   <div class="collect">
-    <h2>collect</h2>
+    <el-empty class="empty" description="空空如也" />
   </div>
 </template>
 
 <script setup lang="ts">
-export interface IProps {
-  title?: string
-}
-
-// 配置props类型与默认值
-const props = withDefaults(defineProps<IProps>(), {
-  title: ''
-})
+import { ElEmpty } from 'element-plus'
 </script>
 
-<style lang="scss" scoped></style>
+<style lang="scss" scoped>
+.collect {
+  .empty {
+    height: 50vh;
+  }
+}
+</style>
