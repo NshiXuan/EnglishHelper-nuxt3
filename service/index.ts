@@ -4,7 +4,8 @@ type Methods = "GET" | "POST"
 
 export interface IResultData<T> {
   code: number,
-  data: T
+  data: T,
+  msg?: string
 }
 
 const BASE_URL = "http://43.138.161.206:9999"

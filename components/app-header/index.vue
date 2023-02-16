@@ -26,7 +26,7 @@
         <NuxtLink to="/trans">英汉翻译</NuxtLink>
       </el-menu-item>
       <el-menu-item index="exec">
-        <NuxtLink to="/exec">每日练习</NuxtLink>
+        <NuxtLink to="/exec">每日一练</NuxtLink>
       </el-menu-item>
       <el-menu-item index="collect">
         <NuxtLink to="/collect">收藏夹</NuxtLink>
@@ -38,14 +38,14 @@
         <el-menu-item index="en">En</el-menu-item>
       </el-sub-menu> -->
 
-      <el-sub-menu index="avator">
+      <el-sub-menu index="avator" v-if="userId">
         <template #title>
           <img class="avatar" src="@/assets/img/pinia.png" alt="个人中心" />
         </template>
-        <el-menu-item index="logout">退出</el-menu-item>
+        <el-menu-item index="logout" @click="handleLogout">退出</el-menu-item>
       </el-sub-menu>
 
-      <el-menu-item index="login">
+      <el-menu-item index="login" v-else>
         <NuxtLink to="/login">登录/注册</NuxtLink>
         <!-- 登录/注册 -->
       </el-menu-item>
@@ -61,15 +61,36 @@ import { useHomeStore } from '~~/store/home'
 // 刷新路由获取路径赋给currentIndex
 const route = useRoute()
 const currentIndex = ref(route.name as string)
+
 // 搜索内容
 const searchValue = ref('')
 
 // 从store中获取action用于搜索时请求获取单词数据
 const homeStore = useHomeStore()
 
+// 获取登录态 用户id
+// const { userId } = storeToRefs(homeStore)
+const userId = ref(undefined)
+if (process.client) {
+  userId.value = JSON.parse(window.localStorage.getItem('en-userId') as any)
+
+  // 把userId存到pinia中
+  homeStore.userId = userId.value
+}
+
+// 获取路由
+const router = useRouter()
+
 // 选择导航
 const handleSelect = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
+}
+
+// 退出登录
+function handleLogout() {
+  // 清除localStorag的登录态
+  window.localStorage.removeItem('en-userId')
+  userId.value = undefined
 }
 
 // 按回车搜索
@@ -77,7 +98,12 @@ function handleKeydown(e: any) {
   // 如果是回车键
   if (e.keyCode === 13) {
     homeStore.fetchWordByName(searchValue.value)
-    console.log(e)
+
+    // 如果是其它页面回到首页
+    router.push('/')
+
+    // 高亮首页
+    currentIndex.value = 'index'
   }
 }
 </script>

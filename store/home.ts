@@ -3,14 +3,16 @@ import { getWordByName, IWord } from '~~/service/word'
 
 export interface IHomeState {
   count?: number,
-  word?: IWord
+  word?: IWord,
+  userId: number | undefined
 }
 
 export const useHomeStore = defineStore('home', {
   state: (): IHomeState => {
     return {
       count: 100,
-      word: {}
+      word: {},
+      userId: undefined
     }
   },
   actions: {

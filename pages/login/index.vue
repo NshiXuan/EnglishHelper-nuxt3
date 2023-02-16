@@ -1,104 +1,206 @@
 <template>
-  <div class="login">
-    <div class="box1">
-      <h2 class="h2">login</h2>
-    <div class="input-box">
-      <label>账号</label>
-      <input class="input" type="text">
-    </div>
-    <div class="input-box">
-      <label>密码</label>
-      <input class="input" type="password">
-    </div>
-    <div class="btn-box">
-          <div class="btn1"><input type="button" value="登录"></div>
-          <div class="btn2"><input type="button" value="注册"></div>
-    </div>
+  <div id="modal">
+    <div id="modal-content">
+      <!-- 选择标签 -->
+      <el-tabs v-model="activeName" @tab-click="handleTabClick">
+        <el-tab-pane label="登录" name="login"></el-tab-pane>
+        <el-tab-pane label="注册" name="register"></el-tab-pane>
+      </el-tabs>
+
+      <!-- 登录输入框 -->
+      <div id="login">
+        <el-row class="input-line">
+          <el-col :span="4"><span class="text">账号：</span></el-col>
+          <el-col :span="20">
+            <el-input v-model="username" placeholder="请输入账号"></el-input>
+          </el-col>
+        </el-row>
+        <el-row class="input-line">
+          <el-col :span="4"><span class="text">密码：</span></el-col>
+          <el-col :span="20">
+            <el-input
+              v-model="password"
+              placeholder="请输入密码"
+              show-password
+            ></el-input>
+          </el-col>
+          <el-button type="primary" id="login-btn" @click="handleLogin"
+            >登录</el-button
+          >
+        </el-row>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import {
+  ElButton,
+  ElCol,
+  ElInput,
+  ElRow,
+  ElTabs,
+  ElTabPane,
+  ElMessage
+} from 'element-plus'
+import { loginApi, registerApi } from '@/service/user'
+import { useHomeStore } from '~~/store/home'
+
 // definePageMeta({ layout: 'login' })
+
+const activeName = ref('login')
+const username = ref('')
+const password = ref('')
+
+const router = useRouter()
+
+// 获取store
+const homeStore = useHomeStore()
+
+// 点击选择标签
+function handleTabClick() {
+  console.log(activeName.value)
+}
+
+// 登录
+function handleLogin() {
+  console.log(username.value)
+  console.log(password.value)
+  if (activeName.value === 'login') {
+    // 登录
+    loginApi(username.value, password.value).then((res) => {
+      // console.log(res.data.value?.data)
+      // 登陆失败
+      if (res.data.value?.msg) {
+        ElMessage({
+          message: res.data.value?.msg,
+          type: 'error'
+        })
+      }
+
+      // 登陆成功后把用户id存到LocalStorage
+      if (res.data.value?.data?.id) {
+        if (process.client) {
+          window.localStorage.setItem(
+            'en-userId',
+            JSON.stringify(res.data.value?.data.id)
+          )
+        }
+
+        // 把userId存储到store中
+        homeStore.userId = res.data.value?.data.id
+
+        ElMessage({
+          message: '登陆成功',
+          type: 'success'
+        })
+      }
+
+      // 跳转页面并刷新
+      // router.replace('/')
+      location.replace('/')
+      return
+    })
+  } else {
+    // 注册
+    registerApi(username.value, password.value).then((res) => {
+      if (res.data.value?.code === 0) {
+        ElMessage({
+          message: '注册成功，请登录！',
+          type: 'success'
+        })
+      } else {
+        // 注册失败
+        ElMessage({
+          message: res.data.value?.msg,
+          type: 'error'
+        })
+      }
+    })
+  }
+}
 </script>
 
 <style lang="scss" scoped>
-  *{
-    margin: 0;
-    padding: 0;
+:deep .el-tabs__nav-scroll {
+  display: flex;
+  justify-content: center;
+}
+
+#copyright {
+  position: absolute;
+  bottom: 5%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.hide {
+  visibility: hidden;
+  opacity: 0;
+}
+
+#modal {
+  z-index: 999;
+  text-align: center;
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background-image: linear-gradient(to left, gray, white);
+  background-size: 400%;
+  animation: myanimation 10s infinite;
+}
+
+@keyframes myanimation {
+  0% {
+    background-position: 0% 50%;
   }
-  .login{
-    padding: 100px;
-    background-color: blue;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    background: url(@/assets/img/login-background.jpg) no-repeat;
-    background-size: 100% 100%;
-      .box1{
-      border-radius: 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 350px;
-      height: 380px;
-      border-top: 1px solid rgba(255, 255, 255, 0.5);
-      border-left: 1px solid rgba(255,255,255,0.5);
-      border-bottom: 1px solid rgba(255,255,255,0.5);
-      border-right: 1px solid rgba(255,255,255,0.5);
-      backdrop-filter: blur(10px);
-      h2{
-        color: rgba(255, 255, 255, 0.9);
-      }
-      .input-box{
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        label{
-          margin-top: 5px;
-          font-size: 13px;
-          color: rgba(255, 255, 255, 0.9);
-        }
-        input{
-          box-sizing: border-box;
-          font-size: 14px;
-          height: 35px;
-          width: 250px;
-          background:rgba(255,255,255, 0.3);
-          border-radius:5px;
-          outline: none;
-          padding: 0 10px;
-        }
-        input:focus{
-          border: 1px solid rgba(255,255,255,0.8);
-        }
-      }
-      .btn-box{
-          width: 250px;
-          height: 50px;
-          margin-top: 10px;
-          .btn1{
-            float: left;
-          }
-          .btn2{
-            float: right;
-            input{
-              margin-left: 10px;
-            }
-          }
-          input{
-            width: 120px;
-            height:35px;
-            border-radius: 5px;
-          }
-          input:hover{
-            background:rgba(255,255,255, 0.85);
-          }
-        }
+
+  50% {
+    background-position: 100% 50%;
+  }
+
+  100% {
+    background-position: 0% 50%;
   }
 }
 
+#modal-content {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 480px;
+  height: 300px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+  padding: 25px;
 
+  h1 {
+    margin-top: 10px;
+  }
+}
+
+#login {
+  width: 340px;
+  position: absolute;
+  left: 50%;
+  top: 53%;
+  transform: translate(-50%, -50%);
+
+  .input-line {
+    margin: 15px;
+
+    .text {
+      line-height: 40px;
+    }
+  }
+
+  #login-btn {
+    margin: 10px auto;
+    width: 150px;
+  }
+}
 </style>
