@@ -1,6 +1,6 @@
 import { AsyncData, UseFetchOptions } from "nuxt/dist/app/composables";
 
-type Methods = "GET" | "POST"
+type Methods = "GET" | "POST" | "DELETE" | "PUT"
 
 export interface IResultData<T> {
   code: number,
@@ -25,7 +25,7 @@ class SXRequest {
         method: method,
         ...options
       }
-      if (method === "GET") {
+      if (method === "GET" || method === "DELETE") {
         newOptions.query = data // query -> params
       }
       if (method === "POST") {
@@ -49,6 +49,10 @@ class SXRequest {
 
   post<T = any>(url: string, data?: any, options?: UseFetchOptions<T>) {
     return this.request<T>(url, "POST", data, options)
+  }
+
+  delete<T = any>(url: string, data?: any, options?: UseFetchOptions<T>) {
+    return this.request<T>(url, "DELETE", data, options)
   }
 }
 

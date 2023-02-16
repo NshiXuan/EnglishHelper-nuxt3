@@ -91,6 +91,12 @@ function handleLogout() {
   // 清除localStorag的登录态
   window.localStorage.removeItem('en-userId')
   userId.value = undefined
+
+  // 让pinia周的userId为undefined
+  homeStore.userId = undefined
+
+  // 查询刷新页面
+  location.replace('/')
 }
 
 // 按回车搜索
