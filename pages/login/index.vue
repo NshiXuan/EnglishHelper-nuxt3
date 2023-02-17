@@ -64,8 +64,10 @@ function handleTabClick() {
 
 // 登录
 function handleLogin() {
-  console.log(username.value)
-  console.log(password.value)
+  if (username.value === '' && password.value === '') {
+    return ElMessage.warning('请输入账号密码')
+  }
+
   if (activeName.value === 'login') {
     // 登录
     loginApi(username.value, password.value).then((res) => {
@@ -94,11 +96,12 @@ function handleLogin() {
           message: '登陆成功',
           type: 'success'
         })
+
+        // 跳转页面并刷新
+        // router.replace('/')
+        location.replace('/')
       }
 
-      // 跳转页面并刷新
-      // router.replace('/')
-      location.replace('/')
       return
     })
   } else {

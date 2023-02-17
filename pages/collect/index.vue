@@ -1,12 +1,14 @@
 <template>
   <div class="collect wrap-v1">
-    <template v-if="collects.length > 0" v-for="item in collects">
-      <div class="collect-item" v-if="!words">
-        <div class="right" @click="handleCollect(item)">
-          {{ item.name }}
+    <div v-if="collects.length > 0">
+      <template v-for="item in collects">
+        <div class="collect-item" v-if="!words">
+          <div class="right" @click="handleCollect(item)">
+            {{ item.name }}
+          </div>
+          <div class="left" @click="handleDelete(item)">x</div>
         </div>
-        <div class="left" @click="handleDelete(item)">x</div>
-      </div>
+      </template>
 
       <template v-for="item in words" v-if="words?.length">
         <div class="word" @click="handleClickWord(item)">
@@ -14,7 +16,7 @@
           <span class="cn">{{ item.mean_cn }}</span>
         </div>
       </template>
-    </template>
+    </div>
 
     <el-empty class="empty" description="空空如也" v-else />
 
@@ -63,9 +65,6 @@ import { useHomeStore } from '~~/store/home'
 // 从store中获取用户id
 const homeStore = useHomeStore()
 const { userId, collects } = storeToRefs(homeStore)
-
-// 获取编程式路由
-const router = useRouter()
 
 // 定义单词列表
 // 如果直接分配一个数组为nerver[]

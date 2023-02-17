@@ -24,9 +24,20 @@ const cnValue = ref('')
 
 // 翻译
 function handleTrans() {
-  getTrans('hello').then((res) => {
-    console.log(res, 'tranres')
-    alert('调用第三方接口跨域')
+  // getTrans('hello').then((res) => {
+  //   console.log(res, 'tranres')
+  //   alert('调用第三方接口跨域')
+  // })
+
+  alert('调用第三方接口跨域')
+
+  useFetch(
+    `http://fanyi.youdao.com/translate?&doctype=json&type=AUTO&i=hello`,
+    {
+      method: 'GET'
+    }
+  ).then((res) => {
+    console.log(res)
   })
 }
 </script>
